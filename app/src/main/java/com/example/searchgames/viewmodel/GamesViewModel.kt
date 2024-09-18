@@ -16,6 +16,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import com.example.searchgames.data.GamesDataSource
+
 @HiltViewModel
 class GamesViewModel @Inject constructor(private val repo: GamesRepository) : ViewModel() {
 
@@ -28,6 +33,10 @@ class GamesViewModel @Inject constructor(private val repo: GamesRepository) : Vi
     init {
         fetchGames()
     }
+
+    val gamesPage = Pager(PagingConfig(pageSize = 6)){
+        GamesDataSource(repo)
+    }.flow.cachedIn(viewModelScope)
 
     private fun fetchGames(){
         viewModelScope.launch {

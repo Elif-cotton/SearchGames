@@ -2,7 +2,9 @@ package com.example.searchgames.repository
 
 import com.example.searchgames.data.ApiGames
 import com.example.searchgames.model.GameList
+import com.example.searchgames.model.GamesModel
 import com.example.searchgames.model.SingleGameModel
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class GamesRepository @Inject constructor(private val apiGames: ApiGames) {
@@ -14,6 +16,12 @@ class GamesRepository @Inject constructor(private val apiGames: ApiGames) {
         }
         return null
     }
+
+    suspend fun getGamesPaging(page: Int, pageSize: Int): GamesModel {
+        delay(3000L)
+        return apiGames.getGamesPaging(page, pageSize)
+    }
+
 
     suspend fun getGameById(id: Int): SingleGameModel? {
         val response = apiGames.getGameById(id)
